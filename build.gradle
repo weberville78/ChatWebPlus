@@ -1,0 +1,1 @@
+/* Root build.gradle: empty is fine; we’ll drive Gradle from CI */
