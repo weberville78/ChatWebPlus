@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item android:id="@+id/m_new_chat" android:title="New Chat"/>
+    <item android:id="@+id/m_projects"  android:title="Projects"/>
+    <item android:id="@+id/m_gpts"      android:title="GPTs"/>
+    <item android:id="@+id/m_fav1"      android:title="Scarlett GPT"/>
+    <item android:id="@+id/m_fav2"      android:title="Code Helper"/>
+  </group>
+</menu>

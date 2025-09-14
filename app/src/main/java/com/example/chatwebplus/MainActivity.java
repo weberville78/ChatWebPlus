@@ -22,11 +22,16 @@ import android.widget.ProgressBar;
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends ComponentActivity {
 
     private WebView web;
     private ProgressBar progress;
+    private DrawerLayout drawer;
+    private NavigationView nav;
 
     private ValueCallback<Uri[]> filePathCallback;
     private final ActivityResultLauncher<Intent> fileChooserLauncher =
@@ -45,6 +50,26 @@ public class MainActivity extends ComponentActivity {
         setContentView(R.layout.activity_main);
         web = findViewById(R.id.web);
         progress = findViewById(R.id.progress);
+        drawer = findViewById(R.id.drawer);
+        nav = findViewById(R.id.nav);
+
+        // Navigation drawer clicks
+        nav.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.m_new_chat) {
+                web.loadUrl("https://chat.openai.com/");
+            } else if (id == R.id.m_projects) {
+                web.loadUrl("https://chat.openai.com/?view=projects");
+            } else if (id == R.id.m_gpts) {
+                web.loadUrl("https://chat.openai.com/g");
+            } else if (id == R.id.m_fav1) {
+                web.loadUrl("https://chat.openai.com/g/REPLACE_WITH_YOUR_GPT_ID");
+            } else if (id == R.id.m_fav2) {
+                web.loadUrl("https://chat.openai.com/g/REPLACE_WITH_OTHER_GPT_ID");
+            }
+            drawer.closeDrawers();
+            return true;
+        });
 
         permsLauncher.launch(new String[]{
                 Manifest.permission.CAMERA,
@@ -136,7 +161,12 @@ public class MainActivity extends ComponentActivity {
 
     @Override
     public void onBackPressed() {
-        if (web.canGoBack()) web.goBack();
-        else super.onBackPressed();
+        if (drawer.isDrawerOpen(nav)) {
+            drawer.closeDrawers();
+        } else if (web.canGoBack()) {
+            web.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
